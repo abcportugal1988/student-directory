@@ -6,9 +6,13 @@ end
 
 #this method prints the students names and cohorts
 def print_list(students)
-  students.each_with_index do |student,index|
-      puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
+  i=0
+  #we are now using a loop to print the name of each student
+  while i<students.count
+      puts "#{i+1}. #{students[i][:name]} (#{students[i][:cohort]} cohort)"
+      i+=1
   end
+  puts
 end
 
 #this method prints the students names and cohorts according to some restrictions
@@ -65,5 +69,4 @@ students = input_students
 
 print_header
 print_list(students)
-print_list_size(students)
 print_footer(students)
