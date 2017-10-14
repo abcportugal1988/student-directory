@@ -16,6 +16,31 @@ def print_list(students)
   puts
 end
 
+#this method prints the students names by cohort
+def print_list_cohort(students)
+  i=0
+  #we create an empty array to get store a list of all existing cohorts
+  arr=[]
+  #we are now using a loop to find all existing cohorts
+  while i<students.count
+      arr.push(students[i][:cohort])
+      i+=1
+  end
+  #we eliminate double cohorts from our array so that we can iterate over it and not have duplicates
+  arr.uniq.each do |month|
+    #we puts every month as a title
+    puts "#{month.capitalize}:".center(100)
+    puts
+    #we then iterate over the students list fo find print only the students from that cohort
+      students.each do |student|
+        if student[:cohort]==month
+          puts "#{student[:name]}. #{student[:name]}\'s main hobby is #{student[:hobbies]}."
+          puts
+        end
+      end
+  end
+end
+
 #this method prints the students names and cohorts according to some restrictions
 def print_list_letter(students)
   puts "You want to see students' names starting with which letter?"
@@ -46,6 +71,7 @@ def print_footer(students)
   puts
 end
 
+
 #this method allow for the creation of the student list database by asking the user for input and storing it in an array and hashes
 def input_students
   puts "Please enter the name of the students."
@@ -56,19 +82,40 @@ def input_students
   name= gets.chomp
   #we use a loop to collect all names until the input is empty
     while !(name.empty?)
-      #first we add the inputted name to the array via a hash (together with a cohort, hobbies and country)
-      students.push({:name=>name.capitalize, :cohort=>:november, :hobbies=>"killing", :country=>"Hell"})
-      #then we say how many students we now have
-      puts "Now we have #{students.count} students."
-      #we then ask for a new student name from the user and change the variable name restarting the loop
-      name=gets.chomp
+      #first we ask for the cohort
+      puts "Which cohort does #{name} come from?"
+      cohort=gets.chomp
+      #this is a hash of cohort months and symbols
+      cohort_list={:january=>"january",
+                   :february=>"february",
+                   :march=>"march",
+                   :april=>"april",
+                   :may=>"may",
+                   :june=>"june",
+                   :july=>"july",
+                   :august=>"august",
+                   :september=>"september",
+                   :october=>"october",
+                   :november=>"november",
+                   :december=>"december"
+                   }
+      #now we check if that cohort exists in our compiled hash of cohorts, if not, we keep asking for a cohort until it does
+          while !(cohort_list.has_value?(cohort.downcase))
+            puts "Oops, we cannot recognize that cohort, do you want to try again?"
+            cohort=gets.chomp
+          end
+          #now we add the inputted name to the array via a hash (together with a cohort, hobbies and country)
+          students.push({:name=>name.capitalize, :cohort=>cohort_list.key(cohort.downcase), :hobbies=>"killing", :country=>"Hell"})
+          #then we say how many students we now have
+          puts "Now we have #{students.count} students."
+          #we then ask for a new student name from the user and change the variable name restarting the loop
+          name=gets.chomp
     end
   #to finalize we return the list of students (not putting, just returning)
   students
 end
 
 students = input_students
-
 print_header
-print_list(students)
+print_list_cohort(students)
 print_footer(students)
