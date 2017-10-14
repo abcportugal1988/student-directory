@@ -5,15 +5,18 @@ def print_header
 end
 
 #this method prints the students names and cohorts
-def print(students)
+def print(students,letter)
   students.each_with_index do |student,index|
-    puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    #only print students whose first letter of the name is the same as specified letter
+    if student[:name][0].downcase==letter
+      puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    end
   end
 end
 
 #this method prints the footer of the student list which includes the current student count.
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students."
+  puts "Overall, we have #{students.count} great students but we are only printing the ones starting with your requested letter."
 end
 
 def input_students
@@ -38,5 +41,5 @@ end
 
 students = input_students
 print_header
-print(students)
+print(students,"a")
 print_footer(students)
