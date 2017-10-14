@@ -1,4 +1,3 @@
-student_count=11
 #adding all students to an array
 students=["Dr. Hannibal Lecter","Darth Vader","Nurse Ratched","Michael Corleone",
   "Alex DeLarge","The Wicked Witch of the West", "Terminator", "Freddy Krueger", "The Joker",
@@ -18,4 +17,4 @@ puts students[8]
 puts students[9]
 puts students[10]
 #we then add a sentence which provides a count of the total number of students
-puts "Overall we have #{student_count} great students"
+puts "Overall we have #{students.count} great students"
