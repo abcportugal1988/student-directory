@@ -9,7 +9,7 @@ def print_list(students)
   i=0
   #we are now using a loop to print the name of each student
   while i<students.count
-      puts "#{i+1}. #{students[i][:name]} (#{students[i][:cohort]} cohort)"
+      puts "#{i+1}. #{students[i][:name]} (#{students[i][:cohort]} cohort). #{students[i][:name]}\'s main hobby is #{students[i][:hobbies]}."
       i+=1
   end
   puts
@@ -50,16 +50,20 @@ def input_students
   puts "To finish, just press \"return\" twice (or once if you don't want to add any students ;))"
   #first we create an empty array to store the information
   students= []
-  #now we start getting the list of students from the user
-  name= gets.chomp
+  #now we start getting the list of students from the user asking for the first name
+  name= gets.chomp.capitalize!
   #we use a loop to collect all names until the input is empty
     while !(name.empty?)
-      #first we add the inputted name to the array via a hash
-      students.push({:name=>name, :cohort=>:november})
+      #first we add the inputted name to the array via a hash (together with a cohort, hobbies and country)
+      students.push({:name=>name, :cohort=>:november, :hobbies=>"killing", :country=>"Hell"})
       #then we say how many students we now have
       puts "Now we have #{students.count} students."
       #we then ask for a new student name from the user and change the variable name restarting the loop
       name=gets.chomp
+      #this block of code ensures that all names inputted will be capitalized
+      if !(name.empty?)
+        name=name.capitalize!
+      end
     end
   #to finalize we return the list of students (not putting, just returning)
   students
