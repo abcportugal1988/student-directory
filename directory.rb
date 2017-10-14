@@ -107,7 +107,11 @@ def input_students
           #now we add the inputted name to the array via a hash (together with a cohort, hobbies and country)
           students.push({:name=>name.capitalize, :cohort=>cohort_list.key(cohort.downcase), :hobbies=>"killing", :country=>"Hell"})
           #then we say how many students we now have
-          puts "Now we have #{students.count} students."
+          if students.count==1
+            puts "Now we have #{students.count} student."
+          else
+            puts "Now we have #{students.count} students."
+          end
           #we then ask for a new student name from the user and change the variable name restarting the loop
           name=gets.chomp
     end
