@@ -1,7 +1,8 @@
 #this method prints the heading of the student list
 def print_header
-  puts "The students of Villains Academy"
-  puts "--------------------------"
+  #we use the center method to make the header centered
+  puts "The students of Villains Academy".center(100)
+  puts "".center(100,"-")
 end
 
 #this method prints the students names and cohorts
@@ -9,7 +10,7 @@ def print_list(students)
   i=0
   #we are now using a loop to print the name of each student
   while i<students.count
-      puts "#{i+1}. #{students[i][:name]} (#{students[i][:cohort]} cohort). #{students[i][:name]}\'s main hobby is #{students[i][:hobbies]}."
+      puts "#{i+1}. #{students[i][:name]} (#{students[i][:cohort]} cohort). #{students[i][:name]}\'s main hobby is #{students[i][:hobbies]}.".center(100)
       i+=1
   end
   puts
@@ -42,6 +43,7 @@ end
 def print_footer(students)
   print "Overall, we have #{students.count} great students but we are only printing "
   puts "the ones according to your specifications."
+  puts
 end
 
 #this method allow for the creation of the student list database by asking the user for input and storing it in an array and hashes
@@ -51,19 +53,15 @@ def input_students
   #first we create an empty array to store the information
   students= []
   #now we start getting the list of students from the user asking for the first name
-  name= gets.chomp.capitalize!
+  name= gets.chomp
   #we use a loop to collect all names until the input is empty
     while !(name.empty?)
       #first we add the inputted name to the array via a hash (together with a cohort, hobbies and country)
-      students.push({:name=>name, :cohort=>:november, :hobbies=>"killing", :country=>"Hell"})
+      students.push({:name=>name.capitalize, :cohort=>:november, :hobbies=>"killing", :country=>"Hell"})
       #then we say how many students we now have
       puts "Now we have #{students.count} students."
       #we then ask for a new student name from the user and change the variable name restarting the loop
       name=gets.chomp
-      #this block of code ensures that all names inputted will be capitalized
-      if !(name.empty?)
-        name=name.capitalize!
-      end
     end
   #to finalize we return the list of students (not putting, just returning)
   students
