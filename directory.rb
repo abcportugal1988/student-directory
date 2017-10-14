@@ -1,17 +1,3 @@
-#adding all students to an array
-students=[{:name=> "Dr. Hannibal Lecter", :cohort=> :november},
-          {:name=> "Darth Vader", :cohort=> :november},
-          {:name=> "Nurse Ratched", :cohort=> :november},
-          {:name=> "Michael Corleone", :cohort=> :november},
-          {:name=> "Alex DeLarge", :cohort=> :november},
-          {:name=> "The Wicked Witch of the West", :cohort=> :november},
-          {:name=> "Terminator", :cohort=> :november},
-          {:name=> "Freddy Krueger", :cohort=> :november},
-          {:name=> "The Joker", :cohort=> :november},
-          {:name=> "Joffrey Baratheon", :cohort=> :november},
-          {:name=> "Norman Bates", :cohort=> :november}
-          ]
-
 #this method prints the heading of the student list
 def print_header
   puts "The students of Villains Academy"
@@ -30,6 +16,27 @@ def print_footer(students)
   puts "Overall, we have #{students.count} great students."
 end
 
+def input_students
+  puts "Please enter the name of the students."
+  puts "To finish, just press \"return\" twice (or once if you don't want to add any students ;))"
+  #first we create an empty array to store the information
+  students= []
+  #now we start getting the list of students from the user
+  name= gets.chomp
+  #we use a loop to collect all names until the input is empty
+    while !(name.empty?)
+      #first we add the inputted name to the array via a hash
+      students.push({:name=>name, :cohort=>:november})
+      #then we say how many students we now have
+      puts "Now we have #{students.count} students."
+      #we then ask for a new student name from the user and change the variable name restarting the loop
+      name=gets.chomp
+    end
+  #to finalize we return the list of students (not putting, just returning)
+  students
+end
+
+students = input_students
 print_header
 print(students)
 print_footer(students)
