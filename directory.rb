@@ -79,7 +79,8 @@ def input_students
   #first we create an empty array to store the information
   students= []
   #now we start getting the list of students from the user asking for the first name
-  name= gets.chomp
+  #we are using the method delete to delete the return character at the end of user's input
+  name= gets.delete("\n")
   #we use a loop to collect all names until the input is empty
     while !(name.empty?)
       #first we ask for the cohort
@@ -105,7 +106,7 @@ def input_students
             cohort=gets.chomp
           end
           #now we add the inputted name to the array via a hash (together with a cohort, hobbies and country)
-          students.push({:name=>name.capitalize, :cohort=>cohort_list.key(cohort.downcase), :hobbies=>"killing", :country=>"Hell"})
+          students.push({:name=>name.capitalize, :cohort=>cohort_list.key(cohort.downcase), :hobbies=>"killing people", :country=>"Hell"})
           #then we say how many students we now have
           if students.count==1
             puts "Now we have #{students.count} student."
