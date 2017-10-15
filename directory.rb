@@ -1,41 +1,53 @@
-#this provides an interactive menu to start our program
+#this declares the first variable available to all methods
+@students=[]
 
+#this provides an interactive menu to start our program
 def interactive_menu
-  #declaring student variable so that we have an initial value
-  students=[]
   #keep giving options for the user to choose what s/he wants to do
   loop do
     #print the menu to ask the student what he wants to do
-    puts "What would you like to do?"
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "9. Exit"
-    #store the information entered
-    selection=gets.chomp
+    print_menu
     #execute the user's requested action
-    case selection
-    when "1"
-      #input the students
-      students=input_students
-    when "2"
-      #show the students
-      print_header(students)
-      print_list(students)
-      print_footer(students)
-    when "9"
-      #exit the program
-      exit
-    else
-      puts "I can't recognize this option, please try again:"
-      selection=gets.chomp
-    end
+    process(gets.chomp)
   end
 end
 
+#this method establishes what happens when user selects a specific option
+def process(selection)
+  case selection
+  when "1"
+    #input the students
+    input_students
+  when "2"
+    #show the students
+    show_students
+  when "9"
+    #exit the program
+    exit
+  else
+    puts "I can't recognize this option, please try again:"
+  end
+end
+
+#this method prints the all user's possible options while using the interactive_menu
+def print_menu
+  puts "What would you like to do?"
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exit"
+end
+
+#this method prints all students to the screen with a header and footer
+def show_students
+  print_header
+  print_student_list
+  print_footer
+end
+
 #this method prints the heading of the student list
-def print_header(students)
+def print_header
   #added an if statement to only print if the list has at least one student name
-  if !(students.count==0)
+  if !(@students.empty?)
     #we use the center method to make the header centered
     puts "The students of Villains Academy".center(100)
     puts "".center(100,"-")
@@ -45,20 +57,20 @@ def print_header(students)
 end
 
 #this method prints the students names and cohorts
-def print_list(students)
+def print_student_list
   i=0
   #we are now using a loop to print the name of each student
-  while i<students.count
-      puts "#{i+1}. #{students[i][:name]} (#{students[i][:cohort]} cohort). #{students[i][:name]}\'s main hobby is #{students[i][:hobbies]}.".center(100)
+  while i<@students.count
+      puts "#{i+1}. #{@students[i][:name]} (#{@students[i][:cohort]} cohort). #{@students[i][:name]}\'s main hobby is #{@students[i][:hobbies]}.".center(100)
       i+=1
   end
   puts
 end
 
 #this method prints the footer of the student list which includes the current student count.
-def print_footer(students)
-  unless students.count==0
-    print "Overall, we have #{students.count} great students but we are only printing "
+def print_footer
+  unless @students.count==0
+    print "Overall, we have #{@students.count} great students but we are only printing "
     puts "the ones according to your specifications."
     puts
   end
@@ -68,8 +80,6 @@ end
 def input_students
   puts "Please enter the name of the students."
   puts "To finish, just press \"return\" twice (or once if you don't want to add any students ;))"
-  #first we create an empty array to store the information
-  students= []
   #now we start getting the list of students from the user asking for the first name
   #we are using the method delete to delete the return character at the end of user's input
   name= gets.delete("\n")
@@ -98,18 +108,16 @@ def input_students
             cohort=gets.chomp
           end
           #now we add the inputted name to the array via a hash (together with a cohort, hobbies and country)
-          students.push({:name=>name.capitalize, :cohort=>cohort_list.key(cohort.downcase), :hobbies=>"killing people", :country=>"Hell"})
+          @students.push({:name=>name.capitalize, :cohort=>cohort_list.key(cohort.downcase), :hobbies=>"killing people", :country=>"Hell"})
           #then we say how many students we now have
-          if students.count==1
-            puts "Now we have #{students.count} student."
+          if @students.count==1
+            puts "Now we have #{@students.count} student."
           else
-            puts "Now we have #{students.count} students."
+            puts "Now we have #{@students.count} students."
           end
           #we then ask for a new student name from the user and change the variable name restarting the loop
           name=gets.chomp
     end
-  #to finalize we return the list of students (not putting, just returning)
-  students
 end
 
 #the following methods are not our the main methods in our program but we can refer to them if necessary
