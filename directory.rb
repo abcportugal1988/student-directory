@@ -1,8 +1,13 @@
 #this method prints the heading of the student list
-def print_header
-  #we use the center method to make the header centered
-  puts "The students of Villains Academy".center(100)
-  puts "".center(100,"-")
+def print_header(students)
+  #added an if statement to only print if the list has at least one student name
+  if !(students.count==0)
+    #we use the center method to make the header centered
+    puts "The students of Villains Academy".center(100)
+    puts "".center(100,"-")
+  else
+    puts "The student list is empty! There is nothing to print"
+  end
 end
 
 #this method prints the students names and cohorts
@@ -66,9 +71,11 @@ end
 
 #this method prints the footer of the student list which includes the current student count.
 def print_footer(students)
-  print "Overall, we have #{students.count} great students but we are only printing "
-  puts "the ones according to your specifications."
-  puts
+  unless students.count==0
+    print "Overall, we have #{students.count} great students but we are only printing "
+    puts "the ones according to your specifications."
+    puts
+  end
 end
 
 
@@ -121,6 +128,6 @@ def input_students
 end
 
 students = input_students
-print_header
+print_header(students)
 print_list_cohort(students)
 print_footer(students)
