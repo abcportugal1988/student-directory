@@ -120,6 +120,23 @@ def input_students
     end
 end
 
+#this method saves the student list to a .csv file
+def save_students
+  #open the file for writing
+  file=File.open("students.csv","w")
+  #then we iterate over the array of students
+  @students.each do |student|
+    #we create an array with the information we need
+    student_data=[student[:name],student[:cohort]]
+    #we join the array into a string separated by a comma
+    csv_line=student_data.join(",")
+    #we call puts on our file so that we can puts the information onto the file rather than to our screen
+    file.puts csv_line
+  end
+  #remember to close the file when we don't need it anymore
+  file.close
+end
+
 #the following methods are not our the main methods in our program but we can refer to them if necessary
 
 #this method prints the students names by cohort
@@ -170,4 +187,5 @@ def print_list_size(students)
   end
 end
 
-interactive_menu
+input_students
+save_students
