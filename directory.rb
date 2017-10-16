@@ -18,6 +18,7 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
+  puts "4. Load the list from students.csv"
   puts "9. Exit"
 end
 
@@ -33,6 +34,9 @@ def process(selection)
   when "3"
     #save the students to the .csv file
     save_students
+    #load students from the .csv file
+  when "4"
+    load_students
   when "9"
     #exit the program
     exit
@@ -142,6 +146,17 @@ def save_students
   file.close
 end
 
+#this method loads the list of students from the previously saved .csv file
+def load_students
+  file = File.open("students.csv","r")
+  file.readlines.each do |line|
+    name=line.chomp.split(",")[0]
+    cohort=line.chomp.split(",")[1]
+    @students.push({:name=>name,:cohort=>cohort.to_sym,:hobbies=>"killing people", :country=>"Hell"})
+  end
+  file.close
+end
+
 #the following methods are not our the main methods in our program but we can refer to them if necessary
 
 #this method prints the students names by cohort
@@ -192,5 +207,4 @@ def print_list_size(students)
   end
 end
 
-input_students
-save_students
+interactive_menu
