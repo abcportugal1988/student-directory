@@ -12,6 +12,15 @@ def interactive_menu
   end
 end
 
+#this method prints the all user's possible options while using the interactive_menu
+def print_menu
+  puts "What would you like to do?"
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "3. Save the list to students.csv"
+  puts "9. Exit"
+end
+
 #this method establishes what happens when user selects a specific option
 def process(selection)
   case selection
@@ -21,6 +30,9 @@ def process(selection)
   when "2"
     #show the students
     show_students
+  when "3"
+    #save the students to the .csv file
+    save_students
   when "9"
     #exit the program
     exit
@@ -29,52 +41,6 @@ def process(selection)
   end
 end
 
-#this method prints the all user's possible options while using the interactive_menu
-def print_menu
-  puts "What would you like to do?"
-  puts "1. Input the students"
-  puts "2. Show the students"
-  puts "9. Exit"
-end
-
-#this method prints all students to the screen with a header and footer
-def show_students
-  print_header
-  print_student_list
-  print_footer
-end
-
-#this method prints the heading of the student list
-def print_header
-  #added an if statement to only print if the list has at least one student name
-  if !(@students.empty?)
-    #we use the center method to make the header centered
-    puts "The students of Villains Academy".center(100)
-    puts "".center(100,"-")
-  else
-    puts "The student list is empty! There is nothing to print."
-  end
-end
-
-#this method prints the students names and cohorts
-def print_student_list
-  i=0
-  #we are now using a loop to print the name of each student
-  while i<@students.count
-      puts "#{i+1}. #{@students[i][:name]} (#{@students[i][:cohort]} cohort). #{@students[i][:name]}\'s main hobby is #{@students[i][:hobbies]}.".center(100)
-      i+=1
-  end
-  puts
-end
-
-#this method prints the footer of the student list which includes the current student count.
-def print_footer
-  unless @students.count==0
-    print "Overall, we have #{@students.count} great students but we are only printing "
-    puts "the ones according to your specifications."
-    puts
-  end
-end
 
 #this method allow for the creation of the student list database by asking the user for input and storing it in an array and hashes
 def input_students
@@ -118,6 +84,45 @@ def input_students
           #we then ask for a new student name from the user and change the variable name restarting the loop
           name=gets.chomp
     end
+end
+
+#this method prints all students to the screen with a header and footer
+def show_students
+  print_header
+  print_student_list
+  print_footer
+end
+
+#this method prints the heading of the student list
+def print_header
+  #added an if statement to only print if the list has at least one student name
+  if !(@students.empty?)
+    #we use the center method to make the header centered
+    puts "The students of Villains Academy".center(100)
+    puts "".center(100,"-")
+  else
+    puts "The student list is empty! There is nothing to print."
+  end
+end
+
+#this method prints the students names and cohorts
+def print_student_list
+  i=0
+  #we are now using a loop to print the name of each student
+  while i<@students.count
+      puts "#{i+1}. #{@students[i][:name]} (#{@students[i][:cohort]} cohort). #{@students[i][:name]}\'s main hobby is #{@students[i][:hobbies]}.".center(100)
+      i+=1
+  end
+  puts
+end
+
+#this method prints the footer of the student list which includes the current student count.
+def print_footer
+  unless @students.count==0
+    print "Overall, we have #{@students.count} great students but we are only printing "
+    puts "the ones according to your specifications."
+    puts
+  end
 end
 
 #this method saves the student list to a .csv file
