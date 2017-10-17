@@ -38,6 +38,8 @@ end
 
 #this method establishes what happens when user selects a specific option
 def process(selection)
+  puts "You've chosen option #{selection}"
+  puts
   case selection
   when "1"
     #input the students
@@ -56,6 +58,10 @@ def process(selection)
     exit
   else
     puts "I can't recognize this option, please try again:"
+  end
+  if selection.to_i.between?(1,8)
+    puts "Your choice was successfully carried out."
+    puts
   end
 end
 
