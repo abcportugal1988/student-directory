@@ -31,7 +31,7 @@ def print_menu
   puts "What would you like to do?"
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
+  puts "3. Save the list"
   puts "4. Load the list from students.csv"
   puts "9. Exit"
 end
@@ -142,8 +142,11 @@ end
 
 #this method saves the student list to a .csv file
 def save_students
+  #ask for a file name
+  puts "Which file name would you like to use to save your information?"
+  file_name=STDIN.gets.chomp
   #open the file for writing
-  file=File.open("students.csv","w")
+  file=File.open(file_name,"w")
   #then we iterate over the array of students
   @students.each do |student|
     #we create an array with the information we need
