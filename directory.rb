@@ -1,5 +1,19 @@
-#this declares the first variable available to all methods
+#this declares the variables available to all methods
 @students=[]
+  #this is a hash of cohort months and symbols
+@cohort_list={:january=>"january",
+             :february=>"february",
+             :march=>"march",
+             :april=>"april",
+             :may=>"may",
+             :june=>"june",
+             :july=>"july",
+             :august=>"august",
+             :september=>"september",
+             :october=>"october",
+             :november=>"november",
+             :december=>"december"
+             }
 
 #this provides an interactive menu to start our program
 def interactive_menu
@@ -58,27 +72,13 @@ def input_students
       #first we ask for the cohort
       puts "Which cohort does #{name} come from?"
       cohort=STDIN.gets.chomp
-      #this is a hash of cohort months and symbols
-      cohort_list={:january=>"january",
-                   :february=>"february",
-                   :march=>"march",
-                   :april=>"april",
-                   :may=>"may",
-                   :june=>"june",
-                   :july=>"july",
-                   :august=>"august",
-                   :september=>"september",
-                   :october=>"october",
-                   :november=>"november",
-                   :december=>"december"
-                   }
       #now we check if that cohort exists in our compiled hash of cohorts, if not, we keep asking for a cohort until it does
-          while !(cohort_list.has_value?(cohort.downcase))
+          while !(@cohort_list.has_value?(cohort.downcase))
             puts "Oops, we cannot recognize that cohort, do you want to try again?"
             cohort=STDIN.gets.chomp
           end
           #now we add the inputted name to the array via a hash (together with a cohort, hobbies and country)
-          @students.push({:name=>name.capitalize, :cohort=>cohort_list.key(cohort.downcase), :hobbies=>"killing people", :country=>"Hell"})
+          add_student_info(name,cohort)
           #then we say how many students we now have
           if @students.count==1
             puts "Now we have #{@students.count} student."
@@ -88,6 +88,11 @@ def input_students
           #we then ask for a new student name from the user and change the variable name restarting the loop
           name=STDIN.gets.chomp
     end
+end
+
+#this method simply adds the student information collected from another method to the @students variable
+def add_student_info(name,cohort)
+  @students.push({:name=>name.capitalize, :cohort=>@cohort_list.key(cohort.downcase), :hobbies=>"killing people", :country=>"Hell"})
 end
 
 #this method prints all students to the screen with a header and footer
@@ -152,21 +157,25 @@ def load_students(filename="students.csv")
   file.readlines.each do |line|
     name=line.chomp.split(",")[0]
     cohort=line.chomp.split(",")[1]
-    @students.push({:name=>name,:cohort=>cohort.to_sym,:hobbies=>"killing people", :country=>"Hell"})
+    #we then run the add_student_info method which allows to store information from students into our @student variable
+    add_student_info(name,cohort)
   end
   file.close
 end
 
 #this method tries to load any file to the student list from the get go
 def try_load_students
+  #first we see if there was a filename passed as an argument on the command line
   filename=ARGV.first
-  if filename.nil?
+  if filename.nil? #we leave the program if no filename was passed
     return
+    #if a filename was passed we need to check if the file exists or we could just get an error message
   elsif File.exists?(filename)
+    #if the file exists use method load students (which allows to load student data from any file)
     load_students(filename)
     puts "Loaded #{@students.count} students from #{filename}."
   else
-    puts "Sorry, #{filename} does not exist"
+    puts "Sorry, #{filename} does not exist." #if the file does not exist simply print an error message and leave the program
     exit
   end
 end
