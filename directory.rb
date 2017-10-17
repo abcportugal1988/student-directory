@@ -8,7 +8,7 @@ def interactive_menu
     #print the menu to ask the student what he wants to do
     print_menu
     #execute the user's requested action
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
@@ -34,8 +34,8 @@ def process(selection)
   when "3"
     #save the students to the .csv file
     save_students
-    #load students from the .csv file
   when "4"
+    #load students from the .csv file
     load_students
   when "9"
     #exit the program
@@ -52,12 +52,12 @@ def input_students
   puts "To finish, just press \"return\" twice (or once if you don't want to add any students ;))"
   #now we start getting the list of students from the user asking for the first name
   #we are using the method delete to delete the return character at the end of user's input
-  name= gets.delete("\n")
+  name= STDIN.gets.delete("\n")
   #we use a loop to collect all names until the input is empty
     while !(name.empty?)
       #first we ask for the cohort
       puts "Which cohort does #{name} come from?"
-      cohort=gets.chomp
+      cohort=STDIN.gets.chomp
       #this is a hash of cohort months and symbols
       cohort_list={:january=>"january",
                    :february=>"february",
@@ -75,7 +75,7 @@ def input_students
       #now we check if that cohort exists in our compiled hash of cohorts, if not, we keep asking for a cohort until it does
           while !(cohort_list.has_value?(cohort.downcase))
             puts "Oops, we cannot recognize that cohort, do you want to try again?"
-            cohort=gets.chomp
+            cohort=STDIN.gets.chomp
           end
           #now we add the inputted name to the array via a hash (together with a cohort, hobbies and country)
           @students.push({:name=>name.capitalize, :cohort=>cohort_list.key(cohort.downcase), :hobbies=>"killing people", :country=>"Hell"})
@@ -86,7 +86,7 @@ def input_students
             puts "Now we have #{@students.count} students."
           end
           #we then ask for a new student name from the user and change the variable name restarting the loop
-          name=gets.chomp
+          name=STDIN.gets.chomp
     end
 end
 
@@ -147,14 +147,28 @@ def save_students
 end
 
 #this method loads the list of students from the previously saved .csv file
-def load_students
-  file = File.open("students.csv","r")
+def load_students(filename="students.csv")
+  file = File.open(filename,"r")
   file.readlines.each do |line|
     name=line.chomp.split(",")[0]
     cohort=line.chomp.split(",")[1]
     @students.push({:name=>name,:cohort=>cohort.to_sym,:hobbies=>"killing people", :country=>"Hell"})
   end
   file.close
+end
+
+#this method tries to load any file to the student list from the get go
+def try_load_students
+  filename=ARGV.first
+  if filename.nil?
+    return
+  elsif File.exists?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} students from #{filename}."
+  else
+    puts "Sorry, #{filename} does not exist"
+    exit
+  end
 end
 
 #the following methods are not our the main methods in our program but we can refer to them if necessary
@@ -207,4 +221,5 @@ def print_list_size(students)
   end
 end
 
+try_load_students
 interactive_menu
