@@ -167,8 +167,8 @@ end
 def try_load_students
   #first we see if there was a filename passed as an argument on the command line
   filename=ARGV.first
-  if filename.nil? #we leave the program if no filename was passed
-    return
+  if filename.nil?
+    load_students
     #if a filename was passed we need to check if the file exists or we could just get an error message
   elsif File.exists?(filename)
     #if the file exists use method load students (which allows to load student data from any file)
