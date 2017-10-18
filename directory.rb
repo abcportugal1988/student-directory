@@ -31,8 +31,8 @@ def print_menu
   puts "What would you like to do?"
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list"
-  puts "4. Load the list from students.csv"
+  puts "3. Save the list to a file"
+  puts "4. Load the list a file"
   puts "9. Exit"
 end
 
@@ -161,15 +161,22 @@ def save_students
 end
 
 #this method loads the list of students from the previously saved .csv file
-def load_students(filename="students.csv")
-  file = File.open(filename,"r")
-  file.readlines.each do |line|
-    name=line.chomp.split(",")[0]
-    cohort=line.chomp.split(",")[1]
-    #we then run the add_student_info method which allows to store information from students into our @student variable
-    add_student_info(name,cohort)
+def load_students(passed_filename=nil)
+  puts "Which file would you like to load your list from?"
+  file_name=STDIN.gets.chomp
+  if File.exists?(file_name)
+    file = File.open(file_name,"r")
+    file.readlines.each do |line|
+      name=line.chomp.split(",")[0]
+      cohort=line.chomp.split(",")[1]
+      #we then run the add_student_info method which allows to store information from students into our @student variable
+      add_student_info(name,cohort)
+      end
+    file.close
+  else
+    puts "This file does not exist. Let's take you to the menu!!"
   end
-  file.close
+
 end
 
 #this method tries to load any file to the student list from the get go
