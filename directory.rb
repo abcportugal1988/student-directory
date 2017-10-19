@@ -65,7 +65,6 @@ def process(selection)
   end
 end
 
-
 #this method allow for the creation of the student list database by asking the user for input and storing it in an array and hashes
 def input_students
   puts "Please enter the name of the students."
@@ -146,18 +145,17 @@ def save_students
   puts "Which file name would you like to use to save your information?"
   file_name=STDIN.gets.chomp
   #open the file for writing
-  file=File.open(file_name,"w")
+  File.open(file_name,"w") do |file|
   #then we iterate over the array of students
-  @students.each do |student|
-    #we create an array with the information we need
-    student_data=[student[:name],student[:cohort]]
-    #we join the array into a string separated by a comma
-    csv_line=student_data.join(",")
-    #we call puts on our file so that we can puts the information onto the file rather than to our screen
-    file.puts csv_line
+    @students.each do |student|
+      #we create an array with the information we need
+      student_data=[student[:name],student[:cohort]]
+      #we join the array into a string separated by a comma
+      csv_line=student_data.join(",")
+      #we call puts on our file so that we can puts the information onto the file rather than to our screen
+      file.puts csv_line
+    end
   end
-  #remember to close the file when we don't need it anymore
-  file.close
 end
 
 #this method loads the list of students from the previously saved .csv file
@@ -165,18 +163,17 @@ def load_students(passed_filename=nil)
   puts "Which file would you like to load your list from?"
   file_name=STDIN.gets.chomp
   if File.exists?(file_name)
-    file = File.open(file_name,"r")
-    file.readlines.each do |line|
-      name=line.chomp.split(",")[0]
-      cohort=line.chomp.split(",")[1]
-      #we then run the add_student_info method which allows to store information from students into our @student variable
-      add_student_info(name,cohort)
+    File.open(file_name,"r") do |file|
+      file.readlines.each do |line|
+        name=line.chomp.split(",")[0]
+        cohort=line.chomp.split(",")[1]
+        #we then run the add_student_info method which allows to store information from students into our @student variable
+        add_student_info(name,cohort)
       end
-    file.close
+    end
   else
     puts "This file does not exist. Let's take you to the menu!!"
   end
-
 end
 
 #this method tries to load any file to the student list from the get go
