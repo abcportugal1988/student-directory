@@ -163,13 +163,12 @@ def load_students(passed_filename=nil)
   puts "Which file would you like to load your list from?"
   file_name=STDIN.gets.chomp
   if File.exists?(file_name)
-    File.open(file_name,"r") do |file|
-      file.readlines.each do |line|
-        name=line.chomp.split(",")[0]
-        cohort=line.chomp.split(",")[1]
-        #we then run the add_student_info method which allows to store information from students into our @student variable
-        add_student_info(name,cohort)
-      end
+    require "csv"
+    CSV.foreach(file_name) do |line|
+      name=line[0]
+      cohort=line[1]
+      #we then run the add_student_info method which allows to store information from students into our @student variable
+      add_student_info(name,cohort)
     end
   else
     puts "This file does not exist. Let's take you to the menu!!"
