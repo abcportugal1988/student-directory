@@ -241,5 +241,13 @@ def print_list_size(students)
   end
 end
 
+#this method displays all the code in the current file
+def read_source_code
+  File.open($0,"r") do |file|
+    puts file.read
+  end
+end
+
+read_source_code
 try_load_students
 interactive_menu
