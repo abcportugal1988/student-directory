@@ -145,15 +145,14 @@ def save_students
   puts "Which file name would you like to use to save your information?"
   file_name=STDIN.gets.chomp
   #open the file for writing
-  File.open(file_name,"w") do |file|
+  require "csv"
+  CSV.open(file_name,"w") do |file|
   #then we iterate over the array of students
     @students.each do |student|
       #we create an array with the information we need
       student_data=[student[:name],student[:cohort]]
-      #we join the array into a string separated by a comma
-      csv_line=student_data.join(",")
       #we call puts on our file so that we can puts the information onto the file rather than to our screen
-      file.puts csv_line
+      file.puts student_data
     end
   end
 end
